@@ -24,4 +24,19 @@ public class BufferPool {
         }
     }
     
+    /**
+     * Obtains size of the free buffer list
+     * @return Size of the free buffer list
+     */
+    public int getFreeBufferListSize() {
+        return freeBuffers.length();
+    }
+    
+    /**
+     * Obtains a free buffer from the free buffer list
+     * @return Free buffer from list
+     */
+    public Buffer getFreeBuffer() {
+        return freeBuffers.dequeue();
+    }
 }

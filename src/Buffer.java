@@ -9,12 +9,14 @@
 public class Buffer {
     private static final int BUFFER_SIZE = 4096;
     private byte[] data;
+    private int dirtyBit;
     
     /**
      * Constructor 
      */
     public Buffer() {
         data = new byte[BUFFER_SIZE];
+        dirtyBit = 0;
     }
     
     /**

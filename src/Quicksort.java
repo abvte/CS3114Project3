@@ -32,13 +32,31 @@
 
 public class Quicksort {
     /**
+     * World class that holds all data structures
+     */
+    public static World world;
+
+    /**
      * @param args
-     *      Command line parameters.
+     *            Command line parameters.
      */
     public static void main(String[] args) {
         // This is the main file for the program.
+        // args[0] = data file name
+        // args[1] = number of buffers
+        // args[2] = statistics file name
+        if (args != null) {
+            try {
+                // Initializes the world class
+                world = new World(args[0], Integer.parseInt(args[1]), args[2]);     
+            }
+            catch (Exception e) {
+                System.out.println("Invalid Arguments");
+                e.printStackTrace();
+            }
+        }
     }
-    
+
     int partition(short[] A, int left, int right, short pivot) {
         while (left <= right) {
             // Move bounds inward until they meet
@@ -49,35 +67,36 @@ public class Quicksort {
             if (right > left)
                 swap(A, left, right);
             // Swap out-of-place values
-            }   
-            return left;
-            // Return first position in right partition }
         }
-    
-        private int findpivot(short[] A, int i, int j) {
-            return (i+j)/2;
-        }
-        
-        void quicksort(short[] A, int i, int j) {
-            // Quicksort
-            int pivotindex = findpivot(A, i, j);
-            // Pick a pivot
-            swap(A, pivotindex, j);
-            // Stick pivot at end
-            // k will be the first position in the right subarray
-            int k = partition(A, i, j-1, A[j]);
-            swap(A, k, j);
-            // Put pivot in place
-            if ((k-i) > 1) quicksort(A, i, k-1);
-            // Sort left partition
-            if ((j-k) > 1)
-                quicksort(A, k+1, j);
-            // Sort right partition }
-        }
-        
-        private void swap(short[] A, int pos1, int pos2) {
-            short temp = A[pos1];
-            A[pos1] = A[pos2];
-            A[pos2] = temp;
-        }
+        return left;
+        // Return first position in right partition }
+    }
+
+    private int findpivot(short[] A, int i, int j) {
+        return (i + j) / 2;
+    }
+
+    void quicksort(short[] A, int i, int j) {
+        // Quicksort
+        int pivotindex = findpivot(A, i, j);
+        // Pick a pivot
+        swap(A, pivotindex, j);
+        // Stick pivot at end
+        // k will be the first position in the right subarray
+        int k = partition(A, i, j - 1, A[j]);
+        swap(A, k, j);
+        // Put pivot in place
+        if ((k - i) > 1)
+            quicksort(A, i, k - 1);
+        // Sort left partition
+        if ((j - k) > 1)
+            quicksort(A, k + 1, j);
+        // Sort right partition }
+    }
+
+    private void swap(short[] A, int pos1, int pos2) {
+        short temp = A[pos1];
+        A[pos1] = A[pos2];
+        A[pos2] = temp;
+    }
 }
