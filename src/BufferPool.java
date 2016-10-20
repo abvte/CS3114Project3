@@ -18,6 +18,8 @@ public class BufferPool {
      */
     public BufferPool(int numberOfBuffers) {
         bufferCount = numberOfBuffers;
+        freeBuffers = new LQueue<Buffer>();
+        LRUList = new LQueue<Buffer>();
         for (int i = 0; i < bufferCount; i++) {
             Buffer dataBuffer = new Buffer();
             freeBuffers.enqueue(dataBuffer);
