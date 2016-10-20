@@ -1,3 +1,5 @@
+import java.io.IOException;
+
 /**
  * Quicksort algorithm
  * 
@@ -7,47 +9,79 @@
  *
  */
 public class Sort {
-
-    int partition(short[] A, int left, int right, short pivot) {
-        while (left <= right) {
-            // Move bounds inward until they meet
-            while (A[left] < pivot)
-                left++;
-            while ((right >= left) && (A[right] >= pivot))
-                right--;
-            if (right > left)
-                swap(A, left, right);
-            // Swap out-of-place values
-        }
-        return left;
-        // Return first position in right partition }
+    private BufferPool pool;
+    private static final int BLOCK_SIZE = 4096;
+    private static final int RECORD_SIZE = 4;
+    
+    public Sort(BufferPool buffPool) throws IOException {
+        pool = buffPool;
+    }
+    
+    /**
+     * Main method that calls other methods to sort data
+     */
+    public void sortData() {
+        // Gets the right most position of the blocks of files
+        this.quicksort(0, pool.getSize() - 1);
     }
 
-    private int findpivot(short[] A, int i, int j) {
+    /**
+     * Main quicksort algorithm
+     * 
+     * @param i
+     *        Left position 
+     * @param j
+     *        Right position 
+     */
+    public void quicksort(int i, int j) {
+        int pivotIndex = this.findPivot(i, j);
+        this.swap(pivotIndex, j);
+    }
+    
+    /**
+     * @param i
+     *        Left position 
+     * @param j
+     *        Right position 
+     * @return pivot values
+     */
+    private int findPivot(int i, int j) {
         return (i + j) / 2;
     }
-
-    void quicksort(short[] A, int i, int j) {
-        // Quicksort
-        int pivotindex = findpivot(A, i, j);
-        // Pick a pivot
-        swap(A, pivotindex, j);
-        // Stick pivot at end
-        // k will be the first position in the right subarray
-        int k = partition(A, i, j - 1, A[j]);
-        swap(A, k, j);
-        // Put pivot in place
-        if ((k - i) > 1)
-            quicksort(A, i, k - 1);
-        // Sort left partition
-        if ((j - k) > 1)
-            quicksort(A, k + 1, j);
-        // Sort right partition }
+    
+    /**
+     * Swap method for quick sort  
+     * 
+     * @param i
+     *         Left position 
+     * @param j
+     *         Right position 
+     */
+    public void swap(int i, int j) {
+        if (pool.getBufferCount() == 1) {
+            this.oneBuffSwap(i, j);
+            return;
+        }
     }
-
-    private void swap(short[] A, int pos1, int pos2) {
-        short temp = A[pos1];
-        A[pos1] = A[pos2];
-        A[pos2] = temp;
+    
+    /**
+     * Swap method when there is only one buffer
+     * 
+     * @param i
+     *        Left position
+     * @param j
+     *        Right position
+     */
+    public void oneBuffSwap(int i, int j) {
+        int leftBlock = (i * RECORD_SIZE) / BLOCK_SIZE;
+        int leftPosition = (i * RECORD_SIZE) % BLOCK_SIZE;
+        int rightBlock = (i * RECORD_SIZE) / BLOCK_SIZE;
+        int rightPosition = (i * RECORD_SIZE) % BLOCK_SIZE;
+        
+        byte[] leftRecord = new byte[RECORD_SIZE];
+        byte[] rightRecord = new byte[RECORD_SIZE];
+        byte[] tempBuffer;
+        
+        
     }
 }

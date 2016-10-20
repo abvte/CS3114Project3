@@ -49,6 +49,7 @@ public class Quicksort {
             try {
                 // Initializes the world class
                 world = new World(args[0], Integer.parseInt(args[1]), args[2]);     
+                world.run();
             }
             catch (Exception e) {
                 System.out.println("Invalid Arguments");

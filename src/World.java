@@ -1,8 +1,7 @@
 import java.io.IOException;
 
 /**
- * World class which allows class objects to 
- * communicate. 
+ * World class which allows class objects to communicate.
  * 
  * @author Kevin Zhang
  * @author Adam Bishop
@@ -11,7 +10,7 @@ import java.io.IOException;
  */
 public class World {
     /**
-     * File processor 
+     * File processor
      */
     protected FileProcessor fileProcess;
     /**
@@ -19,14 +18,39 @@ public class World {
      */
     protected BufferPool pool;
     /**
-     * Stat file generator 
+     * Stat file generator
      */
     protected StatFileGenerator statFile;
-    
+    /**
+     * Class that performs quick sort on the file
+     */
+    protected Sort sorter;
+
+    /**
+     * Constructor
+     * 
+     * @param dataFile
+     *            Data file
+     * @param buffNum
+     *            Number of buffers
+     * @param stat
+     *            Statistics file
+     * @throws IOException
+     */
     public World(String dataFile, int buffNum, String stat) throws IOException {
         fileProcess = new FileProcessor(dataFile);
-        pool = new BufferPool(buffNum);
-        statFile = new StatFileGenerator(stat);
+        pool = new BufferPool(buffNum, fileProcess);
+        statFile = new StatFileGenerator(stat); 
+        sorter = new Sort(pool);
     }
     
+    /**
+     * Runs the quicksort algorithm by communicating to
+     * various classes
+     * @throws IOException 
+     */
+    public void run() throws IOException {
+        sorter.sortData();
+    }
+
 }

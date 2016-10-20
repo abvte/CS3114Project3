@@ -1,3 +1,5 @@
+import java.io.IOException;
+
 /**
  * Buffer pool class
  * 
@@ -7,38 +9,62 @@
  *
  */
 public class BufferPool {
+    private static final int BLOCK_SIZE = 4096;
+    private static final int RECORD_SIZE = 4;
     private int bufferCount;
-    private LQueue<Buffer> freeBuffers;
+    private int fileBlocks;
+    private int diskSize;
     private LQueue<Buffer> LRUList;
+    /**
+     * File processor 
+     */
+    protected FileProcessor fileData;
     
     /**
      * Constructor for buffer pool
      * @param numberOfBuffers
      *                 Number of buffers in the pool
+     * @throws IOException 
      */
-    public BufferPool(int numberOfBuffers) {
+    public BufferPool(int numberOfBuffers, FileProcessor file) throws IOException {
         bufferCount = numberOfBuffers;
-        freeBuffers = new LQueue<Buffer>();
+        fileData = file;
+        fileBlocks = fileData.calculateBlocks();
+        diskSize = fileBlocks * (BLOCK_SIZE/RECORD_SIZE);
         LRUList = new LQueue<Buffer>();
-        for (int i = 0; i < bufferCount; i++) {
-            Buffer dataBuffer = new Buffer();
-            freeBuffers.enqueue(dataBuffer);
-        }
+    }
+        
+    /**
+     * Getter for LRUList
+     * @return LRUList
+     */
+    public LQueue<Buffer> getLRUList() {
+        return LRUList;
     }
     
     /**
-     * Obtains size of the free buffer list
-     * @return Size of the free buffer list
+     * Getter for the amount of buffers
+     * @return Number of buffers
      */
-    public int getFreeBufferListSize() {
-        return freeBuffers.length();
+    public int getBufferCount() {
+        return bufferCount;
     }
     
     /**
-     * Obtains a free buffer from the free buffer list
-     * @return Free buffer from list
+     * Obtains the number of file blocks
+     * @return Number of file blocks
      */
-    public Buffer getFreeBuffer() {
-        return freeBuffers.dequeue();
+    public int getFileBlock() {
+        return fileBlocks;
     }
+    
+    /**
+     * Getter for disk size 
+     * @return diskSize
+     */
+    public int getSize() {
+        return diskSize;
+    }
+    
+    
 }
