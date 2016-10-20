@@ -21,7 +21,7 @@ public class FileProcessor {
      * 
      * @param file
      *            Data file
-     * @throws FileNotFoundException 
+     * @throws FileNotFoundException
      */
     public FileProcessor(String name) throws FileNotFoundException {
         fileName = name;
@@ -29,9 +29,15 @@ public class FileProcessor {
         file = new RandomAccessFile(fileName, "rw");
     }
 
-    public void calculateBlocks() throws IOException {
+    public int calculateBlocks() throws IOException {
         long size = file.length();
-        blockNumber = (int) (BLOCK_SIZE/size);
-        System.out.println(blockNumber);
+        blockNumber = (int) (BLOCK_SIZE / size);
+        return blockNumber;
+    }
+
+    public byte[] getBytes(byte[] space, int pos) throws IOException {
+        int offset = pos * 4096;
+        file.read(space, offset, BLOCK_SIZE);
+        return space;
     }
 }
