@@ -14,7 +14,7 @@ public class BufferPool {
     private int bufferCount;
     private int fileBlocks;
     private int diskSize;
-    private LQueue<Buffer> LRUList;
+    private LQueue LRUList;
     /**
      * File processor 
      */
@@ -31,14 +31,14 @@ public class BufferPool {
         fileData = file;
         fileBlocks = fileData.calculateBlocks();
         diskSize = fileBlocks * (BLOCK_SIZE/RECORD_SIZE);
-        LRUList = new LQueue<Buffer>();
+        LRUList = new LQueue();
     }
         
     /**
      * Getter for LRUList
      * @return LRUList
      */
-    public LQueue<Buffer> getLRUList() {
+    public LQueue getLRUList() {
         return LRUList;
     }
     

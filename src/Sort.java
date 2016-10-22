@@ -75,8 +75,8 @@ public class Sort {
     public void oneBuffSwap(int i, int j) {
         int leftBlock = (i * RECORD_SIZE) / BLOCK_SIZE;
         int leftPosition = (i * RECORD_SIZE) % BLOCK_SIZE;
-        int rightBlock = (i * RECORD_SIZE) / BLOCK_SIZE;
-        int rightPosition = (i * RECORD_SIZE) % BLOCK_SIZE;
+        int rightBlock = (j * RECORD_SIZE) / BLOCK_SIZE;
+        int rightPosition = (j * RECORD_SIZE) % BLOCK_SIZE;
         
         byte[] leftRecord = new byte[RECORD_SIZE];
         byte[] rightRecord = new byte[RECORD_SIZE];
