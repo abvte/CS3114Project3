@@ -37,6 +37,39 @@ class LQueue {
     }
 
     /**
+     * Search method for queue
+     * 
+     * @param blockNumber
+     *            Position number of the buffer
+     * @return Buffer element if found. Null otherwise
+     * 
+     */
+    public Buffer search(int blockNumber) {
+        if (size == 0) { // Empty list
+            return null;
+        }
+
+        Link temp = front; // Grabs the front of the queue
+        while (temp != rear) {
+            if (temp.next().element().getPos() == blockNumber) {
+                Buffer tempBuffer = temp.next().element();
+                if (temp.next() != rear) {
+                    // Removes the element in the queue and puts it at the end
+                    temp.setNext(temp.next().next()); 
+                    size--;
+                    this.enqueue(tempBuffer);
+                    return tempBuffer;
+                }
+                else { // element is found at the end 
+                    return tempBuffer; // Already at the end 
+                }
+            }
+            temp = temp.next();
+        }
+        return null;
+    }
+
+    /**
      * Puts element in the rear of the queue
      * 
      * @param it

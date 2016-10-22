@@ -26,3 +26,5 @@ hs_error_pid*
 *.exe
 *.app
 /bin/
+bin/Quicksort.class
+*.class

@@ -31,23 +31,22 @@ public class Buffer {
     }
 
     /**
-     * Setter for buffer
+     * Setter for buffer. Also sets the dirty bit
      * 
      * @param space
      *            Bytes to be set to data
      */
     public void setData(byte[] space) {
         data = space;
+        this.setDirtyBit();
     }
 
     /**
      * Dirty bit setter
      * 
-     * @param bit
-     *            Bit to be set
      */
-    public void setDirtyBit(int bit) {
-        dirtyBit = bit;
+    public void setDirtyBit() {
+        dirtyBit = 1;
     }
 
     /**

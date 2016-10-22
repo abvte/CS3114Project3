@@ -48,7 +48,7 @@ public class Quicksort {
         if (args != null) {
             try {
                 // Initializes the world class
-                world = new World(args[0], Integer.parseInt(args[1]), args[2]);     
+                world = new World(args[0], Integer.parseInt(args[1]), args[2]);
                 world.run();
             }
             catch (Exception e) {
@@ -56,5 +56,6 @@ public class Quicksort {
                 e.printStackTrace();
             }
         }
+        
     }
 }
