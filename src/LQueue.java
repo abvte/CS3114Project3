@@ -32,7 +32,8 @@ class LQueue {
      * Initialization of queue
      */
     void init() {
-        front = rear = new Link(null);
+        rear = new Link(null);
+        front = rear;
         size = 0;
     }
 
@@ -94,8 +95,9 @@ class LQueue {
         }
         Buffer it = front.next().element(); // Store the value
         front.setNext(front.next().next()); // Advance front
-        if (front.next() == null)
+        if (front.next() == null) {
             rear = front; // Last element
+        }
         size--;
         return it; // Return element
     }

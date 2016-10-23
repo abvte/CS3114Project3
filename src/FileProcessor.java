@@ -11,22 +11,20 @@ import java.io.RandomAccessFile;
  *
  */
 public class FileProcessor {
-    private String fileName;
-    RandomAccessFile file;
-    int blockNumber;
+    private RandomAccessFile file;
+    private int blockNumber;
     private static final int BLOCK_SIZE = 4096;
 
     /**
      * Constructor
      * 
-     * @param file
-     *            Data file
+     * @param name
+     *            Name of the file
      * @throws FileNotFoundException
      */
     public FileProcessor(String name) throws FileNotFoundException {
-        fileName = name;
         blockNumber = 0;
-        file = new RandomAccessFile(fileName, "rw");
+        file = new RandomAccessFile(name, "rw");
     }
 
     /**
@@ -45,9 +43,9 @@ public class FileProcessor {
      * Gets a block from the file
      * 
      * @param space
-     *             Byte array to be set
+     *            Byte array to be set
      * @param pos
-     *             Block number in the file
+     *            Block number in the file
      * @return byte array with file information
      * @throws IOException
      */
@@ -56,15 +54,15 @@ public class FileProcessor {
         file.read(space, offset, BLOCK_SIZE);
         return space;
     }
-    
+
     /**
      * Sets a block in the file
      * 
      * @param space
-     *             Byte array to be set in file
+     *            Byte array to be set in file
      * @param pos
-     *             Position in the array
-     * @throws IOException 
+     *            Position in the array
+     * @throws IOException
      */
     public void insertBytes(byte[] space, int pos) throws IOException {
         int offset = pos * 4096;

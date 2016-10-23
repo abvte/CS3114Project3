@@ -2,8 +2,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 /**
- * This class is used to generate the stat file associated
- * with quicksort.
+ * This class is used to generate the stat file associated with quicksort.
  * 
  * @author Kevin Zhang
  * @author Adam Bishop
@@ -11,17 +10,21 @@ import java.io.IOException;
  *
  */
 public class StatFileGenerator {
-    private FileWriter fileWrite;
     private String fileName;
-    
+
     /**
-     *  Constructor 
+     * Constructor
+     * 
+     * @param statFile
+     *            Name of the file
      */
-    StatFileGenerator(String statFile) {
+    public StatFileGenerator(String statFile) {
         fileName = statFile;
     }
-    
+
     /**
+     * Method to write stats to the file
+     * 
      * @param hits
      *            Number of cache hits
      * @param reads
@@ -30,19 +33,17 @@ public class StatFileGenerator {
      *            Number of disk writes
      * @param time
      *            Time it took to quicksort in ms
+     * @throws IOException
      */
-    public void writeStats(int hits, int reads, int writes, int time) {
-        try {
-            fileWrite = new FileWriter(fileName, true);
-            fileWrite.write("Sort on " + fileName + "\n");
-            fileWrite.write("Cache Hits: " + hits + "\n");
-            fileWrite.write("Disk Reads: " + reads + "\n");
-            fileWrite.write("Disk Writes: " + writes + "\n");
-            fileWrite.write("Time is " + time + "\n");
-            fileWrite.close();
-        }
-        catch (IOException ioe) {
-            System.err.println("IOException: " + ioe.getMessage());
-        }
+    public void writeStats(int hits, int reads, int writes, int time)
+            throws IOException {
+        FileWriter fileWrite;
+        fileWrite = new FileWriter(fileName, true);
+        fileWrite.write("Sort on " + fileName + "\n");
+        fileWrite.write("Cache Hits: " + hits + "\n");
+        fileWrite.write("Disk Reads: " + reads + "\n");
+        fileWrite.write("Disk Writes: " + writes + "\n");
+        fileWrite.write("Time is " + time + "\n");
+        fileWrite.close();
     }
 }

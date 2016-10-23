@@ -15,7 +15,7 @@ public class BufferPool {
     private int bufferCount;
     private int fileBlocks;
     private int diskSize;
-    private LQueue LRUList;
+    private LQueue lruList;
     /**
      * File processor
      */
@@ -26,6 +26,8 @@ public class BufferPool {
      * 
      * @param numberOfBuffers
      *            Number of buffers in the pool
+     * @param file
+     *            File processor object
      * @throws IOException
      */
     public BufferPool(int numberOfBuffers, FileProcessor file)
@@ -34,7 +36,7 @@ public class BufferPool {
         fileData = file;
         fileBlocks = fileData.calculateBlocks();
         diskSize = fileBlocks * (BLOCK_SIZE / RECORD_SIZE);
-        LRUList = new LQueue();
+        lruList = new LQueue();
     }
 
     /**
@@ -43,23 +45,24 @@ public class BufferPool {
      * @param blockPosition
      *            Position of the block
      * @return Buffer with the block position
-     * @throws IOException 
+     * @throws IOException
      */
     public Buffer getBuffer(int blockPosition) throws IOException {
         Buffer buffer = new Buffer();
-        buffer = LRUList.search(blockPosition);
+        buffer = lruList.search(blockPosition);
         if (buffer == null) {
             // Means that it wasn't found
-            if (LRUList.length() < bufferCount) {
+            if (lruList.length() < bufferCount) {
                 buffer = new Buffer();
                 byte[] data = new byte[4096];
                 data = fileData.getBytes(data, blockPosition);
                 buffer.setData(data);
-                LRUList.enqueue(buffer);
+                lruList.enqueue(buffer);
                 return buffer;
             }
             else {
-                System.out.println("Dequeue from buffer and possibly write to the file");
+                System.out.println(
+                        "Dequeue from buffer and possibly write to the file");
                 return buffer;
             }
         }
@@ -67,45 +70,40 @@ public class BufferPool {
             return buffer;
         }
     }
-    
+
     /**
      * Obtains the key from a buffer according to the position
+     * 
      * @param pos
-     *                Position of the element in the file 
+     *            Position of the element in the file
      * @return key value
-     * @throws IOException 
+     * @throws IOException
      */
     public short getKey(int pos) throws IOException {
-        int blockNumber = (pos * RECORD_SIZE)/BLOCK_SIZE;
+        int blockNumber = (pos * RECORD_SIZE) / BLOCK_SIZE;
         int blockPos = (pos * RECORD_SIZE) % BLOCK_SIZE;
         // Obtains the buffer
-        ByteBuffer temp = ByteBuffer.wrap(this.getBuffer(blockNumber).getData()); 
-        short key = temp.getShort(blockPos); // Retrieves key from that position 
+        ByteBuffer temp = ByteBuffer
+                .wrap(this.getBuffer(blockNumber).getData());
+        short key = temp.getShort(blockPos); // Retrieves key from that position
         return key;
     }
-    
+
     /**
-     * Flush method that clears the queue. Writes back 
-     * to file if the dirty bit of the buffer is 1
-     * @throws IOException 
+     * Flush method that clears the queue. Writes back to file if the dirty bit
+     * of the buffer is 1
+     * 
+     * @throws IOException
      */
     public void flush() throws IOException {
-        Buffer buffer = LRUList.dequeue();
+        Buffer buffer = lruList.dequeue();
         while (buffer != null) {
             if (buffer.getDirtyBit() == 1) {
                 fileData.insertBytes(buffer.getData(), buffer.getPos());
             }
-            buffer = LRUList.dequeue();
+            buffer = lruList.dequeue();
         }
-    }
-
-    /**
-     * Getter for LRUList
-     * 
-     * @return LRUList
-     */
-    public LQueue getLRUList() {
-        return LRUList;
+        
     }
 
     /**

@@ -13,6 +13,13 @@ public class Sort {
     private static final int BLOCK_SIZE = 4096;
     private static final int RECORD_SIZE = 4;
 
+    /**
+     * Constructor
+     * 
+     * @param buffPool
+     *            Buffer pool
+     * @throws IOException
+     */
     public Sort(BufferPool buffPool) throws IOException {
         pool = buffPool;
     }
@@ -47,22 +54,22 @@ public class Sort {
             this.quicksort(i, k - 1); // Sorts left partition
         }
         if ((j - k) > 1) {
-            this.quicksort(k + 1, j); // Sort right partition 
+            this.quicksort(k + 1, j); // Sort right partition
         }
-        
+
     }
-    
+
     /**
-     * Partition method for quicksort 
+     * Partition method for quicksort
      * 
      * @param left
-     *            Left position 
+     *            Left position
      * @param right
-     *            Right position 
+     *            Right position
      * @param pivot
      *            Pivot value
-     * @return first position in right partition 
-     * @throws IOException 
+     * @return first position in right partition
+     * @throws IOException
      */
     private int partition(int left, int right, short pivot) throws IOException {
         while (left <= right) { // Move bounds inward until they meet
@@ -76,7 +83,7 @@ public class Sort {
                 this.swap(left, right); // Swap out-of-place values
             }
         }
-        return left; //Return first position in right partition 
+        return left; // Return first position in right partition
     }
 
     /**
@@ -146,7 +153,7 @@ public class Sort {
         System.arraycopy(rightRecord, 0, tempBuffer, leftPosition, RECORD_SIZE);
         leftBuffer.setData(tempBuffer);
     }
-    
+
     /**
      * Flushes the buffer pool
      * 

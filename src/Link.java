@@ -6,11 +6,7 @@
  * @version 1.0
  *
  */
-/**
- * @author Kevin Zhang
- *
- */
-class Link { // Singly linked list node class
+class Link {
     private Buffer data; // Value for this node
     private Link n; // Point to next node in list
 
@@ -22,7 +18,7 @@ class Link { // Singly linked list node class
      * @param in
      *            Next node
      */
-    Link(Buffer block, Link in) {
+    public Link(Buffer block, Link in) {
         data = block;
         n = in;
     }
@@ -33,7 +29,7 @@ class Link { // Singly linked list node class
      * @param inn
      *            Next node
      */
-    Link(Link inn) {
+    public Link(Link inn) {
         data = null;
         n = inn;
     }
@@ -43,7 +39,7 @@ class Link { // Singly linked list node class
      * 
      * @return data
      */
-    Buffer element() {
+    public Buffer element() {
         return data;
     }
 
@@ -54,24 +50,29 @@ class Link { // Singly linked list node class
      *            Data value
      * @return Set data value
      */
-    Buffer setElement(Buffer it) {
-        return data = it;
+    public Buffer setElement(Buffer it) {
+        data = it;
+        return data;
     }
 
     /**
-     * Getter for next node 
-     * @return next node 
+     * Getter for next node
+     * 
+     * @return next node
      */
-    Link next() {
+    public Link next() {
         return n;
-    } 
+    }
 
     /**
-     * Setter for next node 
+     * Setter for next node
+     * 
      * @param inn
-     * @return
+     *            Next node to be set
+     * @return next node
      */
-    Link setNext(Link inn) {
-        return n = inn;
-    } 
+    public Link setNext(Link inn) {
+        n = inn;
+        return n;
+    }
 }
