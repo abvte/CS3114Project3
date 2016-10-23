@@ -51,6 +51,7 @@ public class World {
      */
     public void run() throws IOException {
         sorter.sortData();
+        sorter.flushPool();
     }
 
 }

@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.nio.ByteBuffer;
 
 /**
  * Buffer pool class
@@ -64,6 +65,37 @@ public class BufferPool {
         }
         else {
             return buffer;
+        }
+    }
+    
+    /**
+     * Obtains the key from a buffer according to the position
+     * @param pos
+     *                Position of the element in the file 
+     * @return key value
+     * @throws IOException 
+     */
+    public short getKey(int pos) throws IOException {
+        int blockNumber = (pos * RECORD_SIZE)/BLOCK_SIZE;
+        int blockPos = (pos * RECORD_SIZE) % BLOCK_SIZE;
+        // Obtains the buffer
+        ByteBuffer temp = ByteBuffer.wrap(this.getBuffer(blockNumber).getData()); 
+        short key = temp.getShort(blockPos); // Retrieves key from that position 
+        return key;
+    }
+    
+    /**
+     * Flush method that clears the queue. Writes back 
+     * to file if the dirty bit of the buffer is 1
+     * @throws IOException 
+     */
+    public void flush() throws IOException {
+        Buffer buffer = LRUList.dequeue();
+        while (buffer != null) {
+            if (buffer.getDirtyBit() == 1) {
+                fileData.insertBytes(buffer.getData(), buffer.getPos());
+            }
+            buffer = LRUList.dequeue();
         }
     }
 

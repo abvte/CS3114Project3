@@ -89,8 +89,9 @@ class LQueue {
      * @return Last element of the queue
      */
     public Buffer dequeue() {
-        if (size == 0)
+        if (size == 0) {
             return null;
+        }
         Buffer it = front.next().element(); // Store the value
         front.setNext(front.next().next()); // Advance front
         if (front.next() == null)
@@ -105,8 +106,9 @@ class LQueue {
      * @return Front element of the queue
      */
     public Buffer frontValue() {
-        if (size == 0)
+        if (size == 0) {
             return null;
+        }
         return front.next().element();
     }
 
