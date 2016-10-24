@@ -16,6 +16,9 @@ public class BufferPool {
     private int fileBlocks;
     private int diskSize;
     private LQueue lruList;
+    private int cacheHit;
+    private int diskWrite;
+    private int diskRead;
     /**
      * File processor
      */
@@ -37,6 +40,9 @@ public class BufferPool {
         fileBlocks = fileData.calculateBlocks();
         diskSize = fileBlocks * (BLOCK_SIZE / RECORD_SIZE);
         lruList = new LQueue();
+        cacheHit = 0;
+        diskWrite = 0;
+        diskRead = 0;
     }
 
     /**
@@ -56,6 +62,7 @@ public class BufferPool {
                 buffer = new Buffer();
                 byte[] data = new byte[4096];
                 data = fileData.getBytes(data, blockPosition);
+                diskRead++;
                 buffer.setData(data);
                 lruList.enqueue(buffer);
                 return buffer;
@@ -63,10 +70,12 @@ public class BufferPool {
             else {
                 System.out.println(
                         "Dequeue from buffer and possibly write to the file");
+                // Also need to increment diskwrite if it's written to it
                 return buffer;
             }
         }
         else {
+            cacheHit++;
             return buffer;
         }
     }
@@ -100,10 +109,26 @@ public class BufferPool {
         while (buffer != null) {
             if (buffer.getDirtyBit() == 1) {
                 fileData.insertBytes(buffer.getData(), buffer.getPos());
+                diskWrite++;
             }
             buffer = lruList.dequeue();
         }
-        
+
+    }
+
+    /**
+     * Getter method that returns an array of statistics to be written to the
+     * stat file. stat[0] = cache hits, stat[1] = disk reads, stat[2] = disk
+     * writes
+     * 
+     * @return stat array
+     */
+    public int[] getStatInfo() {
+        int[] stat = new int[3];
+        stat[0] = cacheHit;
+        stat[1] = diskRead;
+        stat[2] = diskWrite;
+        return stat;
     }
 
     /**

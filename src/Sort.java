@@ -162,4 +162,14 @@ public class Sort {
     public void flushPool() throws IOException {
         pool.flush();
     }
+
+    /**
+     * Returns statistics information from the buffer pool
+     * 
+     * @return statInfo
+     */
+    public int[] getStatInfo() {
+        int[] statInfo = pool.getStatInfo();
+        return statInfo;
+    }
 }

@@ -28,3 +28,7 @@ hs_error_pid*
 /bin/
 bin/Quicksort.class
 *.class
+testStats.txt
+test1.txt
+*.class
+*.txt

@@ -50,8 +50,13 @@ public class World {
      * @throws IOException 
      */
     public void run() throws IOException {
+        long startTime = System.currentTimeMillis();
         sorter.sortData();
         sorter.flushPool();
+        long endTime = System.currentTimeMillis();
+        int totalTime = (int) (endTime - startTime);
+        int[] statInfo = sorter.getStatInfo();
+        statFile.writeStats(statInfo[0], statInfo[1], statInfo[2], totalTime);
     }
 
 }
