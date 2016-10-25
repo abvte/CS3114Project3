@@ -33,7 +33,7 @@ public class QueueTest extends TestCase {
         assertEquals(line.frontValue().getPos(), 2);
         assertNull(line.search(9));
     }
-    
+
     /**
      * Unit test for dequeue
      */
@@ -61,14 +61,14 @@ public class QueueTest extends TestCase {
         assertEquals(four, line.dequeue());
         assertEquals(five, line.dequeue());
         assertNull(line.dequeue());
-        assertEquals(0,line.length());
+        assertEquals(0, line.length());
     }
-    
+
     /**
      * Unit test for constructor
      */
     public void testQueueInitSize() {
         LQueue line = new LQueue(1);
-        assertEquals(0,line.length());
+        assertEquals(0, line.length());
     }
 }

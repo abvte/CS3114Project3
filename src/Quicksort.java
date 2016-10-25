@@ -45,17 +45,15 @@ public class Quicksort {
         // args[0] = data file name
         // args[1] = number of buffers
         // args[2] = statistics file name
-        if (args != null) {
-            try {
-                // Initializes the world class
-                world = new World(args[0], Integer.parseInt(args[1]), args[2]);
-                world.run();
-            }
-            catch (Exception e) {
-                System.out.println("Invalid Arguments");
-                e.printStackTrace();
-            }
+        try {
+            // Initializes the world class
+            world = new World(args[0], Integer.parseInt(args[1]), args[2]);
+            world.run();
         }
-        
+        catch (Exception e) {
+            System.out.println("Invalid Arguments");
+            e.printStackTrace();
+        }
+
     }
 }
