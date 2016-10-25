@@ -111,6 +111,33 @@ public class Sort {
             this.oneBuffSwap(i, j);
             return;
         }
+        int leftBlock = (i * RECORD_SIZE) / BLOCK_SIZE;
+        int leftPosition = (i * RECORD_SIZE) % BLOCK_SIZE;
+        int rightBlock = (j * RECORD_SIZE) / BLOCK_SIZE;
+        int rightPosition = (j * RECORD_SIZE) % BLOCK_SIZE;
+
+        byte[] leftRecord = new byte[RECORD_SIZE];
+        byte[] rightRecord = new byte[RECORD_SIZE];
+        byte[] tempBuffer;
+
+        Buffer leftBuffer = pool.getBuffer(leftBlock);
+        Buffer rightBuffer = pool.getBuffer(rightBlock);
+
+        tempBuffer = leftBuffer.getData();
+        System.arraycopy(tempBuffer, leftPosition, leftRecord, 0, RECORD_SIZE);
+
+        tempBuffer = rightBuffer.getData();
+        System.arraycopy(tempBuffer, rightPosition, rightRecord, 0,
+                RECORD_SIZE);
+
+        // Puts the left record of the left buffer into the right buffer
+        System.arraycopy(leftRecord, 0, tempBuffer, rightPosition, RECORD_SIZE);
+        rightBuffer.setData(tempBuffer);
+
+        // Puts right record into left buffer
+        tempBuffer = leftBuffer.getData();
+        System.arraycopy(rightRecord, 0, tempBuffer, leftPosition, RECORD_SIZE);
+        leftBuffer.setData(tempBuffer);
     }
 
     /**

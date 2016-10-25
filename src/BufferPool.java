@@ -55,12 +55,12 @@ public class BufferPool {
      */
     public Buffer getBuffer(int blockPosition) throws IOException {
         Buffer buffer = new Buffer();
+        byte[] data = new byte[4096];
         buffer = lruList.search(blockPosition);
         if (buffer == null) {
+            buffer = new Buffer();
             // Means that it wasn't found
             if (lruList.length() < bufferCount) {
-                buffer = new Buffer();
-                byte[] data = new byte[4096];
                 data = fileData.getBytes(data, blockPosition);
                 diskRead++;
                 buffer.setData(data);
@@ -68,9 +68,19 @@ public class BufferPool {
                 return buffer;
             }
             else {
-                System.out.println(
-                        "Dequeue from buffer and possibly write to the file");
-                // Also need to increment diskwrite if it's written to it
+                Buffer tempBuffer = new Buffer();
+                tempBuffer = lruList.dequeue();
+                if (tempBuffer.getDirtyBit() == 1) {
+                    // Writes the remove buffer to the disk if the dirty bit is
+                    // 1
+                    fileData.insertBytes(tempBuffer.getData(),
+                            tempBuffer.getPos());
+                    diskWrite++;
+                }
+                data = fileData.getBytes(data, blockPosition);
+                diskRead++;
+                buffer.setData(data);
+                lruList.enqueue(buffer);
                 return buffer;
             }
         }
