@@ -35,7 +35,7 @@ public class FileProcessor {
      */
     public int calculateBlocks() throws IOException {
         long size = file.length();
-        blockNumber = (int) (BLOCK_SIZE / size);
+        blockNumber = (int) (size / BLOCK_SIZE);
         return blockNumber;
     }
 
@@ -50,8 +50,9 @@ public class FileProcessor {
      * @throws IOException
      */
     public byte[] getBytes(byte[] space, int pos) throws IOException {
-        int offset = pos * 4096;
-        file.read(space, offset, BLOCK_SIZE);
+        int offset = pos * BLOCK_SIZE;
+        file.seek(offset);
+        file.read(space);
         return space;
     }
 
@@ -65,8 +66,8 @@ public class FileProcessor {
      * @throws IOException
      */
     public void insertBytes(byte[] space, int pos) throws IOException {
-        int offset = pos * 4096;
-        file.seek(pos);
-        file.write(space, offset, BLOCK_SIZE);
+        int offset = pos * BLOCK_SIZE;
+        file.seek(offset);
+        file.write(space);
     }
 }
