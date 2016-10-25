@@ -1,8 +1,9 @@
 import student.TestCase;
 
 /**
- * @author {Your Name Here}
- * @version {Put Something Here}
+ * @author Adam Bishop
+ * @author Kevin Zhang
+ * @version 1.0
  */
 public class QuicksortTest extends TestCase {
     /**
@@ -18,33 +19,5 @@ public class QuicksortTest extends TestCase {
     public void testQInit() {
         Quicksort tree = new Quicksort();
         assertNotNull(tree);
-        Quicksort.main(null);
     }
-
-    /**
-     * Unit test to check to see if it finds elements in the queue properly.
-     */
-    public void testQueueSearch() {
-        Buffer one = new Buffer();
-        one.setPos(1);
-        Buffer two = new Buffer();
-        two.setPos(2);
-        Buffer three = new Buffer();
-        three.setPos(3);
-        Buffer four = new Buffer();
-        four.setPos(4);
-        Buffer five = new Buffer();
-        five.setPos(5);
-        LQueue line = new LQueue();
-        line.enqueue(one);
-        line.enqueue(two);
-        line.enqueue(three);
-        line.enqueue(four);
-        line.enqueue(five);
-        line.search(3);
-        line.search(1);
-        line.search(1);
-        assertEquals(line.frontValue().getPos(), 2);
-    }
-
 }
