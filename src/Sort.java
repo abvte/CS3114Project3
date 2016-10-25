@@ -133,11 +133,13 @@ public class Sort {
         // Puts the left record of the left buffer into the right buffer
         System.arraycopy(leftRecord, 0, tempBuffer, rightPosition, RECORD_SIZE);
         rightBuffer.setData(tempBuffer);
+        rightBuffer.setDirtyBit();
 
         // Puts right record into left buffer
         tempBuffer = leftBuffer.getData();
         System.arraycopy(rightRecord, 0, tempBuffer, leftPosition, RECORD_SIZE);
         leftBuffer.setData(tempBuffer);
+        leftBuffer.setDirtyBit();
     }
 
     /**
@@ -173,12 +175,14 @@ public class Sort {
         // position
         System.arraycopy(leftRecord, 0, tempBuffer, rightPosition, RECORD_SIZE);
         rightBuffer.setData(tempBuffer);
+        rightBuffer.setDirtyBit();
         leftBuffer = pool.getBuffer(leftBlock);
         tempBuffer = leftBuffer.getData();
         // Reads the right record and places it in the temp buffer in the left
         // position
         System.arraycopy(rightRecord, 0, tempBuffer, leftPosition, RECORD_SIZE);
         leftBuffer.setData(tempBuffer);
+        leftBuffer.setDirtyBit();
     }
 
     /**

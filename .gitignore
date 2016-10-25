@@ -32,3 +32,5 @@ testStats.txt
 test1.txt
 *.class
 *.txt
+*.class
+*.class

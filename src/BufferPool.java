@@ -64,6 +64,7 @@ public class BufferPool {
                 data = fileData.getBytes(data, blockPosition);
                 diskRead++;
                 buffer.setData(data);
+                buffer.setPos(blockPosition);
                 lruList.enqueue(buffer);
                 return buffer;
             }
@@ -80,6 +81,7 @@ public class BufferPool {
                 data = fileData.getBytes(data, blockPosition);
                 diskRead++;
                 buffer.setData(data);
+                buffer.setPos(blockPosition);
                 lruList.enqueue(buffer);
                 return buffer;
             }

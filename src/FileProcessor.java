@@ -14,6 +14,7 @@ public class FileProcessor {
     private RandomAccessFile file;
     private int blockNumber;
     private static final int BLOCK_SIZE = 4096;
+    private String fileName;
 
     /**
      * Constructor
@@ -24,6 +25,7 @@ public class FileProcessor {
      */
     public FileProcessor(String name) throws FileNotFoundException {
         blockNumber = 0;
+        fileName = name;
         file = new RandomAccessFile(name, "rw");
     }
 
@@ -69,5 +71,14 @@ public class FileProcessor {
         int offset = pos * BLOCK_SIZE;
         file.seek(offset);
         file.write(space);
+    }
+
+    /**
+     * Getter for file name
+     * 
+     * @return file name
+     */
+    public String getFileName() {
+        return fileName;
     }
 }

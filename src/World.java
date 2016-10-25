@@ -56,7 +56,7 @@ public class World {
         long endTime = System.currentTimeMillis();
         int totalTime = (int) (endTime - startTime);
         int[] statInfo = sorter.getStatInfo();
-        statFile.writeStats(statInfo[0], statInfo[1], statInfo[2], totalTime);
+        statFile.writeStats(statInfo[0], statInfo[1], statInfo[2], totalTime, fileProcess.getFileName());
     }
 
 }

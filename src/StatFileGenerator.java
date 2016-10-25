@@ -33,13 +33,15 @@ public class StatFileGenerator {
      *            Number of disk writes
      * @param time
      *            Time it took to quicksort in ms
+     * @param file
+     *            File name
      * @throws IOException
      */
-    public void writeStats(int hits, int reads, int writes, int time)
+    public void writeStats(int hits, int reads, int writes, int time, String file)
             throws IOException {
         FileWriter fileWrite;
         fileWrite = new FileWriter(fileName, true);
-        fileWrite.write("Sort on " + fileName + "\n");
+        fileWrite.write("Sort on " + file + "\n");
         fileWrite.write("Cache Hits: " + hits + "\n");
         fileWrite.write("Disk Reads: " + reads + "\n");
         fileWrite.write("Disk Writes: " + writes + "\n");

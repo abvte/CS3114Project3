@@ -1,0 +1,5 @@
+Sort on test2.txt
+Cache Hits: 24932
+Disk Reads: 2
+Disk Writes: 2
+Time is 45
