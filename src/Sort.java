@@ -12,6 +12,10 @@ public class Sort {
     private BufferPool pool;
     private static final int BLOCK_SIZE = 4096;
     private static final int RECORD_SIZE = 4;
+    
+    byte[] leftRecord = new byte[RECORD_SIZE];
+    byte[] rightRecord = new byte[RECORD_SIZE];
+    byte[] tempBuffer;
 
     /**
      * Constructor
@@ -116,10 +120,6 @@ public class Sort {
         int rightBlock = (j * RECORD_SIZE) / BLOCK_SIZE;
         int rightPosition = (j * RECORD_SIZE) % BLOCK_SIZE;
 
-        byte[] leftRecord = new byte[RECORD_SIZE];
-        byte[] rightRecord = new byte[RECORD_SIZE];
-        byte[] tempBuffer;
-
         Buffer leftBuffer = pool.getBuffer(leftBlock);
         Buffer rightBuffer = pool.getBuffer(rightBlock);
 
@@ -156,10 +156,6 @@ public class Sort {
         int leftPosition = (i * RECORD_SIZE) % BLOCK_SIZE;
         int rightBlock = (j * RECORD_SIZE) / BLOCK_SIZE;
         int rightPosition = (j * RECORD_SIZE) % BLOCK_SIZE;
-
-        byte[] leftRecord = new byte[RECORD_SIZE];
-        byte[] rightRecord = new byte[RECORD_SIZE];
-        byte[] tempBuffer;
 
         Buffer leftBuffer = pool.getBuffer(leftBlock);
         tempBuffer = leftBuffer.getData();

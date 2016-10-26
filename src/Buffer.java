@@ -37,7 +37,7 @@ public class Buffer {
      *            Bytes to be set to data
      */
     public void setData(byte[] space) {
-        data = space;
+        System.arraycopy(space, 0, data, 0, BUFFER_SIZE - 1);
     }
 
     /**

@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.util.Arrays;
 
 /**
  * Buffer pool class
@@ -19,6 +20,10 @@ public class BufferPool {
     private int cacheHit;
     private int diskWrite;
     private int diskRead;
+    
+    private Buffer tempBuffer = new Buffer();
+    
+    private byte[] data;
     /**
      * File processor
      */
@@ -43,6 +48,7 @@ public class BufferPool {
         cacheHit = 0;
         diskWrite = 0;
         diskRead = 0;
+        data = new byte[4096];
     }
 
     /**
@@ -55,21 +61,21 @@ public class BufferPool {
      */
     public Buffer getBuffer(int blockPosition) throws IOException {
         Buffer buffer = new Buffer();
-        byte[] data = new byte[4096];
+        //data = new byte[4096];
         buffer = lruList.search(blockPosition);
         if (buffer == null) {
             buffer = new Buffer();
             // Means that it wasn't found
             if (lruList.length() < bufferCount) {
-                data = fileData.getBytes(data, blockPosition);
+                buffer.setData(fileData.getBytes(data, blockPosition));
+                //System.out.println(Arrays.toString(data));
                 diskRead++;
-                buffer.setData(data);
+                //buffer.setData(data);
                 buffer.setPos(blockPosition);
                 lruList.enqueue(buffer);
                 return buffer;
             }
             else {
-                Buffer tempBuffer = new Buffer();
                 tempBuffer = lruList.dequeue();
                 if (tempBuffer.getDirtyBit() == 1) {
                     // Writes the remove buffer to the disk if the dirty bit is
@@ -78,9 +84,10 @@ public class BufferPool {
                             tempBuffer.getPos());
                     diskWrite++;
                 }
-                data = fileData.getBytes(data, blockPosition);
+                buffer.setData(fileData.getBytes(data, blockPosition));
+                //System.out.println(Arrays.toString(data));
                 diskRead++;
-                buffer.setData(data);
+                //buffer.setData(data);
                 buffer.setPos(blockPosition);
                 lruList.enqueue(buffer);
                 return buffer;
@@ -125,6 +132,7 @@ public class BufferPool {
             }
             buffer = lruList.dequeue();
         }
+        data = null;
 
     }
 
