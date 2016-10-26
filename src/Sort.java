@@ -12,6 +12,7 @@ public class Sort {
     private BufferPool pool;
     private static final int BLOCK_SIZE = 4096;
     private static final int RECORD_SIZE = 4;
+    private Boolean sorted;
     
     private byte[] leftRecord = new byte[RECORD_SIZE];
     private byte[] rightRecord = new byte[RECORD_SIZE];
@@ -26,6 +27,7 @@ public class Sort {
      */
     public Sort(BufferPool buffPool) throws IOException {
         pool = buffPool;
+        sorted = false;
     }
 
     /**
@@ -55,12 +57,43 @@ public class Sort {
         int k = this.partition(i, j - 1, pivot);
         this.swap(k, j);
         if ((k - i) > 1) {
-            this.quicksort(i, k - 1); // Sorts left partition
+            sorted = this.checkSorted(i, k);
+            if (!sorted) {
+                this.quicksort(i, k - 1); // Sorts left partition
+            }
         }
         if ((j - k) > 1) {
-            this.quicksort(k + 1, j); // Sort right partition
+            sorted = this.checkSorted(k, j);
+            if (!sorted) {
+                this.quicksort(k + 1, j); // Sort right partition
+            }
         }
 
+    }
+    
+    /**
+     * This method checks to see if a partition is sorted. 
+     * Returns true if sorted. False otherwise.
+     * 
+     * @param left
+     *            Left position of partition 
+     * @param right
+     *            Right position of partition 
+     * @return True if sorted. False if not.
+     * @throws IOException 
+     */
+    private Boolean checkSorted(int left, int right) throws IOException {
+        int nextPosition = left + 1;
+        while (left < right) {
+            if (this.pool.getKey(left) <= this.pool.getKey(nextPosition)) {
+                left++;
+                nextPosition++;
+            }
+            else {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
@@ -100,6 +133,7 @@ public class Sort {
     private int findPivot(int i, int j) {
         return (i + j) / 2;
     }
+    
 
     /**
      * Swap method for quick sort

@@ -19,8 +19,8 @@ public class BufferPool {
     private int cacheHit;
     private int diskWrite;
     private int diskRead;
-    private Buffer tempBuffer = new Buffer();
-    private Buffer buffer = new Buffer();
+    private Buffer tempBuffer;
+    private Buffer buffer;
     private byte[] data;
     /**
      * File processor
@@ -38,6 +38,8 @@ public class BufferPool {
      */
     public BufferPool(int numberOfBuffers, FileProcessor file)
             throws IOException {
+        tempBuffer = new Buffer();
+        buffer = new Buffer();
         bufferCount = numberOfBuffers;
         fileData = file;
         fileBlocks = fileData.calculateBlocks();
@@ -116,7 +118,7 @@ public class BufferPool {
      * @throws IOException
      */
     public void flush() throws IOException {
-        Buffer buffer = lruList.dequeue();
+        buffer = lruList.dequeue();
         while (buffer != null) {
             if (buffer.getDirtyBit() == 1) {
                 fileData.insertBytes(buffer.getData(), buffer.getPos());
