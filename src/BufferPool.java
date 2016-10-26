@@ -1,6 +1,5 @@
 import java.io.IOException;
 import java.nio.ByteBuffer;
-import java.util.Arrays;
 
 /**
  * Buffer pool class
@@ -20,9 +19,8 @@ public class BufferPool {
     private int cacheHit;
     private int diskWrite;
     private int diskRead;
-    
     private Buffer tempBuffer = new Buffer();
-    
+    private Buffer buffer = new Buffer();
     private byte[] data;
     /**
      * File processor
@@ -60,17 +58,13 @@ public class BufferPool {
      * @throws IOException
      */
     public Buffer getBuffer(int blockPosition) throws IOException {
-        Buffer buffer = new Buffer();
-        //data = new byte[4096];
         buffer = lruList.search(blockPosition);
         if (buffer == null) {
             buffer = new Buffer();
             // Means that it wasn't found
             if (lruList.length() < bufferCount) {
                 buffer.setData(fileData.getBytes(data, blockPosition));
-                //System.out.println(Arrays.toString(data));
                 diskRead++;
-                //buffer.setData(data);
                 buffer.setPos(blockPosition);
                 lruList.enqueue(buffer);
                 return buffer;
@@ -85,9 +79,7 @@ public class BufferPool {
                     diskWrite++;
                 }
                 buffer.setData(fileData.getBytes(data, blockPosition));
-                //System.out.println(Arrays.toString(data));
                 diskRead++;
-                //buffer.setData(data);
                 buffer.setPos(blockPosition);
                 lruList.enqueue(buffer);
                 return buffer;

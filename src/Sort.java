@@ -13,9 +13,9 @@ public class Sort {
     private static final int BLOCK_SIZE = 4096;
     private static final int RECORD_SIZE = 4;
     
-    byte[] leftRecord = new byte[RECORD_SIZE];
-    byte[] rightRecord = new byte[RECORD_SIZE];
-    byte[] tempBuffer;
+    private byte[] leftRecord = new byte[RECORD_SIZE];
+    private byte[] rightRecord = new byte[RECORD_SIZE];
+    private byte[] tempBuffer;
 
     /**
      * Constructor
@@ -115,9 +115,9 @@ public class Sort {
             this.oneBuffSwap(i, j);
             return;
         }
-        int leftBlock = (i * RECORD_SIZE) / BLOCK_SIZE;
+        int leftBlock = (i >> 10);
         int leftPosition = (i * RECORD_SIZE) % BLOCK_SIZE;
-        int rightBlock = (j * RECORD_SIZE) / BLOCK_SIZE;
+        int rightBlock = (j >> 10);
         int rightPosition = (j * RECORD_SIZE) % BLOCK_SIZE;
 
         Buffer leftBuffer = pool.getBuffer(leftBlock);
@@ -152,9 +152,9 @@ public class Sort {
      * @throws IOException
      */
     public void oneBuffSwap(int i, int j) throws IOException {
-        int leftBlock = (i * RECORD_SIZE) / BLOCK_SIZE;
+        int leftBlock = (i >> 10);
         int leftPosition = (i * RECORD_SIZE) % BLOCK_SIZE;
-        int rightBlock = (j * RECORD_SIZE) / BLOCK_SIZE;
+        int rightBlock = (j >> 10);
         int rightPosition = (j * RECORD_SIZE) % BLOCK_SIZE;
 
         Buffer leftBuffer = pool.getBuffer(leftBlock);
