@@ -37,8 +37,8 @@ public class StatFileGenerator {
      *            File name
      * @throws IOException
      */
-    public void writeStats(int hits, int reads, int writes, int time, String file)
-            throws IOException {
+    public void writeStats(int hits, int reads, int writes, int time,
+            String file) throws IOException {
         FileWriter fileWrite;
         fileWrite = new FileWriter(fileName, true);
         fileWrite.write("Sort on " + file + "\n");

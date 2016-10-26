@@ -40,14 +40,14 @@ public class World {
     public World(String dataFile, int buffNum, String stat) throws IOException {
         fileProcess = new FileProcessor(dataFile);
         pool = new BufferPool(buffNum, fileProcess);
-        statFile = new StatFileGenerator(stat); 
+        statFile = new StatFileGenerator(stat);
         sorter = new Sort(pool);
     }
-    
+
     /**
-     * Runs the quicksort algorithm by communicating to
-     * various classes
-     * @throws IOException 
+     * Runs the quicksort algorithm by communicating to various classes
+     * 
+     * @throws IOException
      */
     public void run() throws IOException {
         long startTime = System.currentTimeMillis();
@@ -56,7 +56,8 @@ public class World {
         long endTime = System.currentTimeMillis();
         int totalTime = (int) (endTime - startTime);
         int[] statInfo = sorter.getStatInfo();
-        statFile.writeStats(statInfo[0], statInfo[1], statInfo[2], totalTime, fileProcess.getFileName());
+        statFile.writeStats(statInfo[0], statInfo[1], statInfo[2], totalTime,
+                fileProcess.getFileName());
     }
 
 }
