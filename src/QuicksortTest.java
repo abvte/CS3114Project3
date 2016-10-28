@@ -138,56 +138,5 @@ public class QuicksortTest extends TestCase {
             e.printStackTrace();
         }
     }
-    
-//    /**
-//     * Test the sorting for binary with 1000 blocks and 10 buffers
-//     * 
-//     * @throws Exception
-//     *             IOException
-//     */
-//    @SuppressWarnings("static-access")
-//    public void testThouBlocksTenBuffers() throws Exception {
-//        FileGenerator fg = new FileGenerator();
-//        try {
-//            fg.generateFile(
-//                    new String[] { "-b", "test1000Blocks10Buffers.txt", "1000" });
-//            Quicksort qs = new Quicksort();
-//            String[] binaryArgs = new String[] { 
-//                "test1000Blocks10Buffers.txt", 
-//                "10",
-//                "test1000Blocks10BufferStats.txt" };
-//            qs.main(binaryArgs);
-//            CheckFile cf = new CheckFile();
-//            assertTrue(cf.checkFile("test1000Blocks10Buffers.txt"));
-//        }
-//        catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
-//    
-//    /**
-//     * Test the sorting for ascii with 1000 blocks and 10 buffers
-//     * 
-//     * @throws Exception
-//     *             IOException
-//     */
-//    @SuppressWarnings("static-access")
-//    public void testThouBlocksTenBuffersAscii() throws Exception {
-//        FileGenerator fg = new FileGenerator();
-//        try {
-//            fg.generateFile(
-//                    new String[] { "-b", "test1000Blocks10BuffersAsc.txt", "1000" });
-//            Quicksort qs = new Quicksort();
-//            String[] binaryArgs = new String[] { 
-//                "test1000Blocks10BuffersAsc.txt", 
-//                "10",
-//                "test1000Blocks10BufferStatsAsc.txt" };
-//            qs.main(binaryArgs);
-//            CheckFile cf = new CheckFile();
-//            assertTrue(cf.checkFile("test1000Blocks10BuffersAsc.txt"));
-//        }
-//        catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
+
 }
