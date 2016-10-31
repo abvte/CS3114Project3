@@ -172,4 +172,13 @@ public class BufferPool {
         return diskSize;
     }
 
+    /**
+     * Getter for the list size of the queue
+     * 
+     * @return List size of the queue
+     */
+    public int getListSize() {
+        return lruList.length();
+    }
+
 }

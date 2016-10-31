@@ -3,7 +3,8 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 
 /**
- * This file is used to process the data file.
+ * This file is used to process the data file. Sole purpose is to obtain or
+ * store information requested by the buffer pool
  * 
  * @author Kevin Zhang
  * @author Adam Bishop
