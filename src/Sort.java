@@ -131,7 +131,7 @@ public class Sort {
      * @return pivot values
      */
     private int findPivot(int i, int j) {
-        return (i + j) / 2;
+        return (i + j) >> 1; // Log2(2)
     }
     
 
@@ -149,9 +149,9 @@ public class Sort {
             this.oneBuffSwap(i, j);
             return;
         }
-        int leftBlock = (i >> 10);
+        int leftBlock = (i >> 10); // Shift by Log2(4) - Log2(4096)
         int leftPosition = (i * RECORD_SIZE) % BLOCK_SIZE;
-        int rightBlock = (j >> 10);
+        int rightBlock = (j >> 10); // Shift by Log2(4) - Log2(4096)
         int rightPosition = (j * RECORD_SIZE) % BLOCK_SIZE;
 
         Buffer leftBuffer = pool.getBuffer(leftBlock);
@@ -186,9 +186,9 @@ public class Sort {
      * @throws IOException
      */
     public void oneBuffSwap(int i, int j) throws IOException {
-        int leftBlock = (i >> 10);
+        int leftBlock = (i >> 10); // Shift by Log2(4) - Log2(4096)
         int leftPosition = (i * RECORD_SIZE) % BLOCK_SIZE;
-        int rightBlock = (j >> 10);
+        int rightBlock = (j >> 10); // Shift by Log2(4) - Log2(4096)
         int rightPosition = (j * RECORD_SIZE) % BLOCK_SIZE;
 
         Buffer leftBuffer = pool.getBuffer(leftBlock);
