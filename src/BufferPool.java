@@ -1,5 +1,4 @@
 import java.io.IOException;
-import java.nio.ByteBuffer;
 
 /**
  * Buffer pool class
@@ -91,24 +90,6 @@ public class BufferPool {
             cacheHit++;
             return buffer;
         }
-    }
-
-    /**
-     * Obtains the key from a buffer according to the position
-     * 
-     * @param pos
-     *            Position of the element in the file
-     * @return key value
-     * @throws IOException
-     */
-    public short getKey(int pos) throws IOException {
-        int blockNumber = (pos * RECORD_SIZE) / BLOCK_SIZE;
-        int blockPos = (pos * RECORD_SIZE) % BLOCK_SIZE;
-        // Obtains the buffer
-        ByteBuffer temp = ByteBuffer
-                .wrap(this.getBuffer(blockNumber).getData());
-        short key = temp.getShort(blockPos); // Retrieves key from that position
-        return key;
     }
 
     /**

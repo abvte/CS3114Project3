@@ -64,22 +64,6 @@ public class BufferPoolTest extends TestCase {
     }
 
     /**
-     * Unit test to test to see if it obtains a key properly from a buffer.
-     * 
-     * @throws IOException
-     */
-    public void testGetKey() throws IOException {
-        FileProcessor fileProcess = new FileProcessor("test3.txt");
-        BufferPool pool = new BufferPool(3, fileProcess);
-        pool.getBuffer(0);
-        pool.getBuffer(1);
-        pool.getBuffer(2);
-        // The value 7688 comes from the first key in the file
-        // "test3.txt"
-        assertEquals(7688, pool.getKey(0));
-    }
-
-    /**
      * Unit test to check to see if it stores the statistics correctly for disk
      * reads, disk writes, and cache hits.
      * 

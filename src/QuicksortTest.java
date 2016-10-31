@@ -3,6 +3,8 @@ import java.io.IOException;
 import student.TestCase;
 
 /**
+ * Unit test cases for the sort class.
+ * 
  * @author Adam Bishop
  * @author Kevin Zhang
  * @version 1.0
@@ -26,6 +28,26 @@ public class QuicksortTest extends TestCase {
         qs.main(new String[] { "a", "b", "c" });
         String output = systemOut().getHistory();
         assertTrue(output.contains("Invalid Arguments"));
+    }
+    
+    /**
+     * Unit test to test to see if it obtains a key properly from a buffer.
+     * 
+     * @throws IOException
+     */
+    public void testGetKey() throws IOException {
+        FileProcessor fileProcess = new FileProcessor("test3.txt");
+        BufferPool pool = new BufferPool(3, fileProcess);
+        Sort sorter = new Sort(pool);
+        // The value 7688 comes from the first key in the file
+        // "test3.txt"
+        assertEquals(7688, sorter.getKey(0));
+        // The value 15693 comes from the second key in the file
+        // "test3.txt"
+        assertEquals(15693, sorter.getKey(1));
+        // The value 13476 comes from the tenth key in the file
+        // "test3.txt"
+        assertEquals(13476, sorter.getKey(10));
     }
 
     /**

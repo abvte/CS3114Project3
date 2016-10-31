@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.nio.ByteBuffer;
 
 /**
  * Quicksort algorithm
@@ -52,7 +53,7 @@ public class Sort {
     public void quicksort(int i, int j) throws IOException {
         int pivotIndex = this.findPivot(i, j);
         this.swap(pivotIndex, j);
-        short pivot = this.pool.getKey(j);
+        short pivot = this.getKey(j);
         // k will be the first position in the right subarray
         int k = this.partition(i, j - 1, pivot);
         this.swap(k, j);
@@ -85,7 +86,7 @@ public class Sort {
     private Boolean checkSorted(int left, int right) throws IOException {
         int nextPosition = left + 1;
         while (left < right) {
-            if (this.pool.getKey(left) <= this.pool.getKey(nextPosition)) {
+            if (this.getKey(left) <= this.getKey(nextPosition)) {
                 left++;
                 nextPosition++;
             }
@@ -110,10 +111,10 @@ public class Sort {
      */
     private int partition(int left, int right, short pivot) throws IOException {
         while (left <= right) { // Move bounds inward until they meet
-            while (pool.getKey(left) < pivot) {
+            while (this.getKey(left) < pivot) {
                 left++;
             }
-            while ((right >= left) && (pool.getKey(right) >= pivot)) {
+            while ((right >= left) && (this.getKey(right) >= pivot)) {
                 right--;
             }
             if (right > left) {
@@ -214,6 +215,25 @@ public class Sort {
         leftBuffer.setData(tempBuffer);
         leftBuffer.setDirtyBit();
     }
+    
+    /**
+     * Obtains the key from a buffer according to the position
+     * 
+     * @param pos
+     *            Position of the element in the file
+     * @return key value
+     * @throws IOException
+     */
+    public short getKey(int pos) throws IOException {
+        int blockNumber = (pos >> 10); // Shift by Log2(4) - Log2(4096)
+        int blockPos = (pos * RECORD_SIZE) % BLOCK_SIZE;
+        // Obtains the buffer
+        ByteBuffer temp = ByteBuffer
+                .wrap(pool.getBuffer(blockNumber).getData());
+        short key = temp.getShort(blockPos); // Retrieves key from that position
+        return key;
+    }
+
 
     /**
      * Flushes the buffer pool
