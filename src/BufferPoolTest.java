@@ -25,7 +25,10 @@ public class BufferPoolTest extends TestCase {
         byte[] testData = new byte[4096];
         Arrays.fill(testData, (byte) 1); // Initializes byte array
         test.setData(testData);
+        test.setDirtyBit();
         assertEquals((byte) 1, test.getData()[0]);
+        // Checks to see if the dirty bit has been set properly
+        assertEquals(1, test.getDirtyBit());
     }
 
     /**

@@ -1,9 +1,12 @@
 import java.io.IOException;
+import java.io.BufferedReader;
+import java.io.FileReader;
 
 import student.TestCase;
 
 /**
- * Unit test cases for the sort class.
+ * Unit test cases for the sort class. Also tests the 
+ * StatFileGenerator class. 
  * 
  * @author Adam Bishop
  * @author Kevin Zhang
@@ -160,5 +163,40 @@ public class QuicksortTest extends TestCase {
             e.printStackTrace();
         }
     }
-
+    
+    /**
+     * Unit test to test the stat file generator class and
+     * makes sure that it prints the proper information 
+     * to the output files
+     * 
+     * @throws IOException 
+     */
+    public void testStatFile() throws IOException {
+        String fileName = "statTest.txt";
+        StatFileGenerator stat = new StatFileGenerator(fileName);
+        stat.writeStats(5, 10, 5, 50, "test1.txt");
+        stat.writeStats(10, 20, 30, 40, "test2.txt");
+        FileReader file =  new FileReader("statTest.txt");
+        BufferedReader bufferedReader = new BufferedReader(file);
+        String line = null;
+        String[] statList = new String[10];
+        int counter = 0;
+        line = bufferedReader.readLine();
+        while ((line != null && counter < 10)) {
+            statList[counter] = line;
+            counter++;
+            line = bufferedReader.readLine();
+        }
+        bufferedReader.close();
+        assertEquals("Sort on test1.txt", statList[0]);
+        assertEquals("Cache Hits: 5", statList[1]);
+        assertEquals("Disk Reads: 10", statList[2]);
+        assertEquals("Disk Writes: 5", statList[3]);
+        assertEquals("Time is 50", statList[4]);
+        assertEquals("Sort on test2.txt", statList[5]);
+        assertEquals("Cache Hits: 10", statList[6]);
+        assertEquals("Disk Reads: 20", statList[7]);
+        assertEquals("Disk Writes: 30", statList[8]);
+        assertEquals("Time is 40", statList[9]);
+    }
 }
