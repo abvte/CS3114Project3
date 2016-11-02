@@ -17,7 +17,7 @@ public class FileProcessorTest extends TestCase {
             FileProcessor fp = new FileProcessor("");
         }
         catch (Exception e) {
-            assertTrue(true); // Verify the exception was caught
+            fp.getClass();
         }
 
         try {
