@@ -15,9 +15,10 @@ public class FileProcessorTest extends TestCase {
     public void testFileProcessorInit() {
         try {
             FileProcessor fp = new FileProcessor("");
+            fp.getClass();
         }
         catch (Exception e) {
-            fp.getClass();
+            assertTrue(e instanceof IOException); //Verify Exception was caught
         }
 
         try {
