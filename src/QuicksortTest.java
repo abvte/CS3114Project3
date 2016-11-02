@@ -5,8 +5,7 @@ import java.io.FileReader;
 import student.TestCase;
 
 /**
- * Unit test cases for the sort class. Also tests the 
- * StatFileGenerator class. 
+ * Unit test cases for the sort class. Also tests the StatFileGenerator class.
  * 
  * @author Adam Bishop
  * @author Kevin Zhang
@@ -32,7 +31,7 @@ public class QuicksortTest extends TestCase {
         String output = systemOut().getHistory();
         assertTrue(output.contains("Invalid Arguments"));
     }
-    
+
     /**
      * Unit test to test to see if it obtains a key properly from a buffer.
      * 
@@ -67,15 +66,11 @@ public class QuicksortTest extends TestCase {
             fg.generateFile(new String[] { "-a", "testQSortAscii.txt", "1" });
             fg.generateFile(new String[] { "-z", "testQSortFail.txt", "1" });
             Quicksort qs = new Quicksort();
-            String[] binaryArgs = new String[] { 
-                "testQSortBinary.txt", 
-                "1",
-                "testQSortStat.txt" };
+            String[] binaryArgs = new String[] { "testQSortBinary.txt", "1",
+                    "testQSortStat.txt" };
             qs.main(binaryArgs);
-            String[] asciiArgs = new String[] { 
-                "testQSortAscii.txt", 
-                "1",
-                "testQSortStat.txt" };
+            String[] asciiArgs = new String[] { "testQSortAscii.txt", "1",
+                    "testQSortStat.txt" };
             qs.main(asciiArgs);
             CheckFile cf = new CheckFile();
             assertTrue(cf.checkFile("testQSortBinary.txt"));
@@ -99,10 +94,8 @@ public class QuicksortTest extends TestCase {
             fg.generateFile(
                     new String[] { "-b", "test10Blocks4Buffers.txt", "10" });
             Quicksort qs = new Quicksort();
-            String[] binaryArgs = new String[] { 
-                "test10Blocks4Buffers.txt",
-                "4", 
-                "test10Blocks4BuffersStats.txt" };
+            String[] binaryArgs = new String[] { "test10Blocks4Buffers.txt",
+                    "4", "test10Blocks4BuffersStats.txt" };
             qs.main(binaryArgs);
             CheckFile cf = new CheckFile();
             assertTrue(cf.checkFile("test10Blocks4Buffers.txt"));
@@ -125,10 +118,8 @@ public class QuicksortTest extends TestCase {
             fg.generateFile(
                     new String[] { "-b", "test10Blocks1Buffer.txt", "10" });
             Quicksort qs = new Quicksort();
-            String[] binaryArgs = new String[] { 
-                "test10Blocks1Buffer.txt", 
-                "1",
-                "test10Blocks1BufferStats.txt" };
+            String[] binaryArgs = new String[] { "test10Blocks1Buffer.txt", "1",
+                    "test10Blocks1BufferStats.txt" };
             qs.main(binaryArgs);
             CheckFile cf = new CheckFile();
             assertTrue(cf.checkFile("test10Blocks1Buffer.txt"));
@@ -137,7 +128,7 @@ public class QuicksortTest extends TestCase {
             e.printStackTrace();
         }
     }
-    
+
     /**
      * Test the sorting for binary with 100 blocks and 10 buffers
      * 
@@ -151,10 +142,8 @@ public class QuicksortTest extends TestCase {
             fg.generateFile(
                     new String[] { "-b", "test100Blocks10Buffers.txt", "100" });
             Quicksort qs = new Quicksort();
-            String[] binaryArgs = new String[] { 
-                "test100Blocks10Buffers.txt", 
-                "10",
-                "test100Blocks10BufferStats.txt" };
+            String[] binaryArgs = new String[] { "test100Blocks10Buffers.txt",
+                    "10", "test100Blocks10BufferStats.txt" };
             qs.main(binaryArgs);
             CheckFile cf = new CheckFile();
             assertTrue(cf.checkFile("test100Blocks10Buffers.txt"));
@@ -163,20 +152,19 @@ public class QuicksortTest extends TestCase {
             e.printStackTrace();
         }
     }
-    
+
     /**
-     * Unit test to test the stat file generator class and
-     * makes sure that it prints the proper information 
-     * to the output files
+     * Unit test to test the stat file generator class and makes sure that it
+     * prints the proper information to the output files
      * 
-     * @throws IOException 
+     * @throws IOException
      */
     public void testStatFile() throws IOException {
         String fileName = "statTest.txt";
         StatFileGenerator stat = new StatFileGenerator(fileName);
         stat.writeStats(5, 10, 5, 50, "test1.txt");
         stat.writeStats(10, 20, 30, 40, "test2.txt");
-        FileReader file =  new FileReader("statTest.txt");
+        FileReader file = new FileReader("statTest.txt");
         BufferedReader bufferedReader = new BufferedReader(file);
         String line = null;
         String[] statList = new String[10];
@@ -199,4 +187,15 @@ public class QuicksortTest extends TestCase {
         assertEquals("Disk Writes: 30", statList[8]);
         assertEquals("Time is 40", statList[9]);
     }
+
+    /**
+     * Tests findPivot function
+     * 
+     * @throws IOException
+     */
+    public void testSortPivot() throws IOException {
+        Sort s = new Sort(null);
+        assertEquals(s.findPivot(0, 10), 5);
+    }
+
 }

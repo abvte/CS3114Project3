@@ -131,7 +131,7 @@ public class Sort {
      *            Right position
      * @return pivot values
      */
-    private int findPivot(int i, int j) {
+    public int findPivot(int i, int j) {
         return (i + j) >> 1; // Log2(2)
     }
     
